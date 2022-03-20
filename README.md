@@ -2,7 +2,7 @@
 
 CityGen is a procedural city generator and homepage that runs in your browser, built with [three.js](https://threejs.org).
 
-Visuals inspired by [DICE](https://www.dice.se)'s breathtaking parkour game [Mirror's Edge](https://en.wikipedia.org/wiki/Mirror%27s_Edge).
+Visuals inspired by [DICE](https://www.dice.se)'s breathtaking parkour video game [Mirror's Edge](https://en.wikipedia.org/wiki/Mirror%27s_Edge).
 
 ## Installation
 
