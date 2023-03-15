@@ -1,9 +1,8 @@
-// jshint esversion: 6
-
-import * as THREE from "three";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
-import SpriteText from "three-spritetext";
-import "hull";
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.122.0/+esm";
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.122.0/examples/jsm/controls/OrbitControls.js";
+import SpriteText from "https://cdn.jsdelivr.net/npm/three-spritetext@1.6.5/+esm";
+import hull from "https://cdn.jsdelivr.net/npm/hull.js@1.0.3/+esm";
+import * as geometric from "https://cdn.jsdelivr.net/npm/geometric@2.2.10/+esm";
 
 // Initialize renderer
 const renderer = new THREE.WebGLRenderer({antialias: true});
