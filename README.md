@@ -6,7 +6,7 @@ Visuals inspired by [DICE](https://www.dice.se)'s breathtaking parkour video gam
 
 ## Installation
 
-All dependencies are loaded from a CDN, so just pull the files into the root directory of your web server to get started.
+All dependencies are loaded automatically, so just pull the files into the root directory of your web server to get started.
 
 ## Usage
 
@@ -16,6 +16,5 @@ Variables are stored in `data.js`. Buildings will be selected randomly and gain 
 
 - [three.js](https://github.com/mrdoob/three.js) for 3D rendering using WebGL.
 - [three-spritetext](https://github.com/vasturiano/three-spritetext) for drawing sprites from text.
-- [ES Module Shims](https://github.com/guybedford/es-module-shims) for JavaScript import map support.
 - [Hull.js](https://github.com/AndriiHeonia/hull) for calculating the concave hull of a set of points.
 - [Geometric.js](https://github.com/HarryStevens/geometric) for polygon operations.
