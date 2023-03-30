@@ -3,7 +3,6 @@ import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.124.0/exampl
 import { Reflector } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/objects/Reflector.min.js";
 import * as geometric from "https://cdn.jsdelivr.net/npm/geometric@2.5.0/+esm";
 import hull from "https://cdn.jsdelivr.net/npm/hull.js@1.0.3/+esm";
-import isMobile from "https://cdn.jsdelivr.net/npm/ismobilejs@1.1.1/+esm";
 import { createNoise4D } from "https://cdn.jsdelivr.net/npm/simplex-noise@4.0.1/+esm";
 import SpriteText from "https://cdn.jsdelivr.net/npm/three-spritetext@1.7.1/+esm";
 
@@ -177,8 +176,8 @@ camera.layers.enable(1);
 // Draw water
 const mirrorOptions = {
 	clipBias: 0.003,
-	textureWidth: mapsize,
-	textureHeight: mapsize,
+	textureWidth: 2048,
+	textureHeight: 2048,
 	color: 0x666666
 };
 
@@ -187,11 +186,7 @@ const mirror = new Reflector(mirrorGeometry, mirrorOptions);
 
 mirror.rotation.set(-Math.PI / 2, 0, 0);
 mirror.position.set(50, 1.5, -50);
-
-// Disable water on mobile devices
-if (isMobile(navigator.userAgentData).any === false) {
-	scene.add(mirror);
-}
+scene.add(mirror);
 
 // Horizon
 const plane = new THREE.Mesh(
