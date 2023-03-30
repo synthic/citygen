@@ -1,8 +1,11 @@
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.122.0/+esm";
-import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.122.0/examples/jsm/controls/OrbitControls.js";
-import SpriteText from "https://cdn.jsdelivr.net/npm/three-spritetext@1.6.5/+esm";
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.124.0/+esm";
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/controls/OrbitControls.min.js";
+import { Reflector } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/objects/Reflector.min.js";
+import * as geometric from "https://cdn.jsdelivr.net/npm/geometric@2.5.0/+esm";
 import hull from "https://cdn.jsdelivr.net/npm/hull.js@1.0.3/+esm";
-import * as geometric from "https://cdn.jsdelivr.net/npm/geometric@2.2.10/+esm";
+import isMobile from "https://cdn.jsdelivr.net/npm/ismobilejs@1.1.1/+esm";
+import { createNoise4D } from "https://cdn.jsdelivr.net/npm/simplex-noise@4.0.1/+esm";
+import SpriteText from "https://cdn.jsdelivr.net/npm/three-spritetext@1.7.1/+esm";
 
 // Initialize renderer
 const renderer = new THREE.WebGLRenderer({antialias: true});
@@ -71,6 +74,7 @@ const mesh = new THREE.Mesh(
 );
 mesh.rotation.set(-Math.PI / 2, 0, 0);
 mesh.receiveShadow = true;
+mesh.layers.set(1);
 scene.add(mesh);
 
 // Draw some boxes
@@ -103,7 +107,7 @@ for (var i = 0; i < 24; i++) {
 
 		const polygonB = concave;
 
-		if (geometric.polygonInPolygon(polygonA, polygonB) == true) {
+		if (geometric.polygonInPolygon(polygonA, polygonB) === true) {
 			group.add(cube);
 			cubeArray.push(cube);
 		}
@@ -160,16 +164,52 @@ for (var i = 0; i < selected.length; i++) {
 	label.position.x = center.x;
 	label.position.y = size.y + 3.5;
 	label.position.z = center.z;
+	label.layers.set(1);
 	scene.add(label);
 
 	// Add user data
 	selected[i].userData = {url: data[i].url};
 }
 
-// Call render function
-render();
+// Show hidden objects
+camera.layers.enable(1);
 
-function render() {
+// Draw water
+const mirrorOptions = {
+	clipBias: 0.003,
+	textureWidth: mapsize,
+	textureHeight: mapsize,
+	color: 0x666666
+};
+
+const mirrorGeometry = new THREE.PlaneGeometry(400, 400, 64, 64);
+const mirror = new Reflector(mirrorGeometry, mirrorOptions);
+
+mirror.rotation.set(-Math.PI / 2, 0, 0);
+mirror.position.set(50, 1.5, -50);
+
+// Disable water on mobile devices
+if (isMobile(navigator.userAgentData).any === false) {
+	scene.add(mirror);
+}
+
+// Horizon
+const plane = new THREE.Mesh(
+	new THREE.PlaneGeometry(10000, 10000),
+	new THREE.MeshBasicMaterial({
+		color: 0xd4e0e7
+	})
+);
+plane.rotation.set(-Math.PI / 2, 0, 0);
+scene.add(plane);
+
+// Generate noise
+const noise4D = createNoise4D();
+
+// Animate scene
+animate();
+
+function animate() {
 	// Update controls
 	controls.update();
 
@@ -180,11 +220,22 @@ function render() {
 	// Update renderer size
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
+	// Update water
+	animateWater(16);
+
 	// Animation loop
-	requestAnimationFrame(render);
+	requestAnimationFrame(animate);
 
 	// Render scene
 	renderer.render(scene, camera);
+}
+
+function animateWater(speed) {
+	for (var i = 0; i < mirrorGeometry.vertices.length; i++) {
+		var z = (i + Date.now() * speed/100000);
+		mirrorGeometry.vertices[i].z = noise4D(z,z,z,z);
+		mirror.geometry.verticesNeedUpdate = true;
+	}
 }
 
 function pickObject() {

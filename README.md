@@ -16,5 +16,7 @@ Variables are stored in `data.js`. Buildings will be selected randomly and gain 
 
 - [three.js](https://github.com/mrdoob/three.js) for 3D rendering using WebGL.
 - [three-spritetext](https://github.com/vasturiano/three-spritetext) for drawing sprites from text.
-- [Hull.js](https://github.com/AndriiHeonia/hull) for calculating the concave hull of a set of points.
 - [Geometric.js](https://github.com/HarryStevens/geometric) for polygon operations.
+- [Hull.js](https://github.com/AndriiHeonia/hull) for calculating the concave hull of a set of points.
+- [isMobile](https://github.com/kaimallea/isMobile) for detecting mobile devices.
+- [simplex-noise.js](https://github.com/jwagner/simplex-noise.js) for generating simplex noise.
